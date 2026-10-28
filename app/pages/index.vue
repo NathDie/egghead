@@ -10,7 +10,7 @@ useHead({
   <div class="container">
     <div class="header">
       <h1>Punk Records</h1>
-      <p>House gestion</p>
+      <p>La maison connectée</p>
     </div>
     <div class="content">
       <LoginForm />

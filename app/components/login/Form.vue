@@ -15,7 +15,7 @@ async function submit() {
     await navigateTo('/dashboard');
   } catch (e) {
     const status = (e as { statusCode?: number }).statusCode;
-    error.value = status === 401 ? 'Invalid username or password.' : 'Unable to reach the server.';
+    error.value = status === 401 ? 'Identifiant invalide.' : 'Impossible d\'accéder au serveur.';
   } finally {
     loading.value = false;
   }
@@ -25,19 +25,19 @@ async function submit() {
 <template>
   <form @submit.prevent="submit">
     <label>
-      Username
+      Nom d'utilisateur
       <input v-model="username" type="text" autocomplete="username" required autofocus/>
     </label>
 
     <label>
-      Password
+      Mot de passe
       <input v-model="password" type="password" autocomplete="current-password" required/>
     </label>
 
     <UiElementsFlashMessage v-if="error" type="error">{{ error }}</UiElementsFlashMessage>
 
     <button type="submit" :disabled="loading">
-      {{ loading ? 'Signing in…' : 'Sign in' }}
+      {{ loading ? 'Connexion en cours…' : 'Connexion' }}
     </button>
   </form>
 </template>
