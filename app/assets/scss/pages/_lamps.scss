@@ -1,0 +1,42 @@
+@use "../abstracts/index" as *;
+
+.page-lamps {
+  .container {
+    .header {
+
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1rem;
+
+      @include lg {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .room-item {
+        background-color: var(--color-milk-jug);
+        border-radius: 1rem;
+        border: 2px solid var(--color-milk-jug2);
+
+        .room-header {
+          background-color: #f4f1eb4d;
+          padding: 0.75rem 1rem;
+          border-bottom: 1px solid var(--color-merino-wool);
+
+          h2 {
+            margin: 0;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            color: var(--color-lucidity);
+          }
+        }
+
+        .room-content {
+          padding: 0.75rem 1rem;
+        }
+      }
+    }
+  }
+}
