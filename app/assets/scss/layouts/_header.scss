@@ -1,5 +1,141 @@
 @use "../abstracts/index" as *;
 
 header {
+  border-bottom: 2px solid #1e406733;
 
+  .top {
+    display: flex;
+    padding: 1rem;
+    justify-content: space-between;
+
+    @include md {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .left-side {
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .icon {
+          background-color: #1e40671a;
+          border: 2px solid #1e406733;
+          border-radius: .75rem;
+          width: 2.25rem;
+          height: 2.25rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          svg {
+            width: 1.25rem;
+            color: var(--color-lucidity);
+          }
+        }
+
+        .content {
+          display: flex;
+          flex-direction: column;
+
+          strong {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            color: var(--color-lucidity);
+            font-family: Pirata One, sans-serif;
+          }
+
+          span {
+            color: var(--color-durango-blue);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+
+    .right-side {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      p {
+        margin: 0;
+        display: none;
+        color: var(--color-lucidity2);
+        font-size: .75rem;
+        line-height: 1rem;
+
+        @include md {
+          display: block;
+        }
+      }
+
+      button {
+        border: none;
+        background: none;
+        color: var(--color-lucidity);
+        font-weight: 600;
+        font-size: .75rem;
+        line-height: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.5rem;
+
+        svg {
+          width: 1rem;
+        }
+
+        span {
+          display: none;
+
+          @include md {
+            display: inline-block;
+          }
+        }
+
+        &:hover {
+          background: var(--color-moby-dick);
+        }
+      }
+    }
+  }
+
+  .bottom {
+    padding: 1rem;
+    overflow: hidden;
+
+    nav {
+      display: flex;
+      gap: 1rem;
+      overflow-y: scroll;
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #1b2b41bf;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-size: .875rem;
+        line-height: 1.25rem;
+
+        svg {
+          width: 1rem;
+        }
+
+        &.router-link-active {
+          background-color: var(--color-lucidity);
+          color: var(--color-white);
+        }
+
+        &:hover {
+          background-color: var(--color-lucidity2);
+          color: var(--color-white);
+        }
+      }
+    }
+  }
 }

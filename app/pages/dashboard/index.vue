@@ -1,23 +1,23 @@
 <script setup lang="ts">
 const auth = useAuthStore();
 
-async function signOut() {
-  auth.logout();
-  await navigateTo('/');
-}
+useHead({
+  bodyAttrs: {
+    class: () => `page-dashboard`
+  }
+})
 </script>
 
 <template>
-  <main>
-    <h1>Dashboard</h1>
-    <p>Signed in as {{ auth.payload?.username }}</p>
-    <p>Roles: {{ auth.roles.join(', ') }}</p>
-
-    <nav>
-      <NuxtLink v-if="auth.isNakama" to="/dashboard/lamps">Lamps</NuxtLink>
-      <NuxtLink v-if="auth.isCaptain" to="/dashboard/tasks">Tasks</NuxtLink>
-    </nav>
-
-    <button @click="signOut">Sign out</button>
-  </main>
+  <div class="container">
+    <div class="header">
+      <h1>Bonjour {{ auth.payload?.username }}</h1>
+      <template v-if="auth.isCaptain">
+        Retrouvez ici vos tâches, vos rappels et l'état de vos services.
+      </template>
+      <template v-else>
+        Retrouvez ici le contrôle de vos lampes.
+      </template>
+    </div>
+  </div>
 </template>
