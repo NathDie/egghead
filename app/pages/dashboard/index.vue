@@ -12,12 +12,14 @@ useHead({
   <div class="container">
     <div class="header">
       <h1>Bonjour {{ auth.payload?.username }}</h1>
-      <template v-if="auth.isCaptain">
-        Retrouvez ici vos tâches, vos rappels et l'état de vos services.
-      </template>
-      <template v-else>
-        Retrouvez ici le contrôle de vos lampes.
-      </template>
+      <p>
+        <template v-if="auth.isCaptain">
+          Retrouvez ici vos tâches, vos rappels et l'état de vos services.
+        </template>
+        <template v-else>
+          Retrouvez ici le contrôle de vos lampes.
+        </template>
+      </p>
     </div>
   </div>
 </template>
