@@ -12,3 +12,11 @@ export interface AuthPayload {
 export interface AuthResponse {
     token: string;
 }
+
+export interface Reminder {
+    id: string
+    title: string
+    remind_at: string
+    description: string
+    recurring: string
+}
