@@ -22,16 +22,17 @@ const messageClass = computed(() => {
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .flash-message {
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
   width: 100%;
-  border-radius: 16px;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
 
   p {
     margin-bottom: 0;
