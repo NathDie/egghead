@@ -1,0 +1,20 @@
+export function useApi() {
+    const config = useRuntimeConfig();
+    const auth = useAuthStore();
+
+    return $fetch.create({
+        baseURL: config.public.apiUrl,
+        onRequest({ options }) {
+            if (!auth.token) return;
+            const headers = new Headers(options.headers);
+            headers.set('Authorization', `Bearer ${auth.token}`);
+            options.headers = headers;
+        },
+        async onResponseError({ response }) {
+            if (response.status === 401) {
+                auth.logout();
+                await navigateTo('/');
+            }
+        },
+    });
+}
