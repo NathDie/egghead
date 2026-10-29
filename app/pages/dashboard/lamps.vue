@@ -30,14 +30,13 @@ function setPending(id: string, value: boolean) {
       : pendingIds.value.filter((pendingId) => pendingId !== id);
 }
 
-function assertNoErrors(response: HubLightManipulateResult) {
+function assertNoErrors(response: { errors: { description: string }[] }) {
   if (response.errors.length > 0) {
     throw new Error(response.errors.map((e) => e.description).join(", "));
   }
 }
 
-async function toggleLight(light: HubLight, event: Event) {
-  const checked = (event.target as HTMLInputElement).checked;
+async function toggleLight(light: HubLight, checked: boolean) {
   const previous = light.on.on;
 
   light.on.on = checked;
@@ -45,7 +44,7 @@ async function toggleLight(light: HubLight, event: Event) {
   toggleError.value = "";
 
   try {
-    assertNoErrors(await hub.manipulateLight(light.id, {on: {on: checked}}));
+    assertNoErrors(await hub.manipulateLight(light.id, { on: { on: checked } }));
   } catch (e) {
     console.error(e);
     light.on.on = previous;
@@ -70,12 +69,10 @@ function roomSummary(room: RoomWithLights): string {
   return `${total} ${total > 1 ? "lampes" : "lampe"} · ${on} ${on > 1 ? "allumées" : "allumée"}`;
 }
 
-async function toggleRoom(room: RoomWithLights, event: Event) {
-  const checked = (event.target as HTMLInputElement).checked;
+async function toggleRoom(room: RoomWithLights, checked: boolean) {
   const groupedLight = room.services.find((service) => service.rtype === "grouped_light");
 
   if (!groupedLight) {
-    (event.target as HTMLInputElement).checked = !checked;
     toggleError.value = `La pièce « ${room.metadata.name} » ne peut pas être commandée en une fois.`;
     return;
   }
@@ -125,11 +122,10 @@ useHead({
             <p class="room-summary">{{ roomSummary(room) }}</p>
           </div>
 
-          <input
-              type="checkbox"
+          <UiElementsToggleSwitcher
               :checked="isRoomOn(room)"
               :disabled="pendingIds.includes(room.id) || room.lights.length === 0"
-              :aria-label="`Allumer ou éteindre toute la pièce ${room.metadata.name}`"
+              :label="`Allumer ou éteindre toute la pièce ${room.metadata.name}`"
               @change="toggleRoom(room, $event)"
           />
         </div>
@@ -138,11 +134,10 @@ useHead({
           <div v-for="light in room.lights" :key="light.id" class="room-light">
             <h3>{{ light.metadata.name }}</h3>
 
-            <input
-                type="checkbox"
+            <UiElementsToggleSwitcher
                 :checked="light.on.on"
                 :disabled="pendingIds.includes(light.id)"
-                :aria-label="`Allumer ou éteindre ${light.metadata.name}`"
+                :label="`Allumer ou éteindre ${light.metadata.name}`"
                 @change="toggleLight(light, $event)"
             />
           </div>

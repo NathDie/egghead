@@ -1,0 +1,64 @@
+.toggle {
+  --toggle-width: 2.25rem;
+  --toggle-height: 1.25rem;
+  --toggle-gap: 0.25rem;
+
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  cursor: pointer;
+
+  &.is-disabled {
+    cursor: wait;
+    opacity: 0.55;
+  }
+}
+
+.toggle-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+
+  &:checked + .toggle-track {
+    background: var(--color-lucidity);
+
+    .toggle-thumb {
+      transform: translateX(calc(var(--toggle-width) - var(--toggle-height)));
+    }
+  }
+
+  &:focus-visible + .toggle-track {
+    outline: 2px solid var(--color-lucidity);
+    outline-offset: 2px;
+  }
+}
+
+.toggle-track {
+  display: block;
+  box-sizing: border-box;
+  width: var(--toggle-width);
+  height: var(--toggle-height);
+  padding: var(--toggle-gap);
+  background: var(--color-downing-sand);
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-thumb {
+  display: block;
+  width: calc(var(--toggle-height) - 2 * var(--toggle-gap));
+  height: calc(var(--toggle-height) - 2 * var(--toggle-gap));
+  background: var(--color-milk-jug);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  transition: transform 0.2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle-track,
+  .toggle-thumb {
+    transition: none;
+  }
+}
