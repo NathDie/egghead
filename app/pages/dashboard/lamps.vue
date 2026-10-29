@@ -1,38 +1,101 @@
 <script setup lang="ts">
 import { useHubService } from "~/services/hubApi.ts";
-
-const roomNames: Record<string, string> = {
-  'entry': "Entrée",
-  'bedroom': "Chambre",
-  "living-room": "Salon",
-  'kitchen': "Cuisine",
-};
-
-const getRoomName = (name: string) => {
-  const slug = name
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/\s+/g, "-");
-
-  return roomNames[slug] ?? name;
-};
+import type { HubLight } from "~/types/hub_models";
 
 const hub = useHubService();
 
-const { data, pending, error } = await useAsyncData("lights-data", async () => {
-  const [rooms, lights] = await Promise.all([hub.getRooms(), hub.getLights()]);
+const { data, pending, error } = await useAsyncData(
+    "lights-data",
+    async () => {
+      const [rooms, lights] = await Promise.all([hub.getRooms(), hub.getLights()]);
 
-  // A room lists devices; a light points to its device through owner.rid
-  return rooms.data.map((room) => {
-    const deviceIds = new Set((room.children ?? []).map((child) => child.rid));
+      return rooms.data.map((room) => {
+        const deviceIds = new Set((room.children ?? []).map((child) => child.rid));
 
-    return {
-      ...room,
-      lights: lights.data.filter((light) => deviceIds.has(light.owner.rid)),
-    };
-  });
-});
+        return {
+          ...room,
+          lights: lights.data.filter((light) => deviceIds.has(light.owner.rid)),
+        };
+      });
+    },
+    { deep: true },
+);
+
+const pendingIds = ref<string[]>([]);
+const toggleError = ref("");
+
+function setPending(id: string, value: boolean) {
+  pendingIds.value = value
+      ? [...pendingIds.value, id]
+      : pendingIds.value.filter((pendingId) => pendingId !== id);
+}
+
+function assertNoErrors(response: HubLightManipulateResult) {
+  if (response.errors.length > 0) {
+    throw new Error(response.errors.map((e) => e.description).join(", "));
+  }
+}
+
+async function toggleLight(light: HubLight, event: Event) {
+  const checked = (event.target as HTMLInputElement).checked;
+  const previous = light.on.on;
+
+  light.on.on = checked;
+  setPending(light.id, true);
+  toggleError.value = "";
+
+  try {
+    assertNoErrors(await hub.manipulateLight(light.id, {on: {on: checked}}));
+  } catch (e) {
+    console.error(e);
+    light.on.on = previous;
+    toggleError.value = `Impossible de modifier « ${light.metadata.name} ».`;
+  } finally {
+    setPending(light.id, false);
+  }
+}
+
+type RoomWithLights = NonNullable<typeof data.value>[number];
+
+const onCount = (room: RoomWithLights) => room.lights.filter((light) => light.on.on).length;
+
+const isRoomOn = (room: RoomWithLights) =>
+    room.lights.length > 0 && room.lights.every((light) => light.on.on);
+
+function roomSummary(room: RoomWithLights): string {
+  const total = room.lights.length;
+  if (total === 0) return "Aucune lampe";
+
+  const on = onCount(room);
+  return `${total} ${total > 1 ? "lampes" : "lampe"} · ${on} ${on > 1 ? "allumées" : "allumée"}`;
+}
+
+async function toggleRoom(room: RoomWithLights, event: Event) {
+  const checked = (event.target as HTMLInputElement).checked;
+  const groupedLight = room.services.find((service) => service.rtype === "grouped_light");
+
+  if (!groupedLight) {
+    (event.target as HTMLInputElement).checked = !checked;
+    toggleError.value = `La pièce « ${room.metadata.name} » ne peut pas être commandée en une fois.`;
+    return;
+  }
+
+  const previous = room.lights.map((light) => light.on.on);
+
+  room.lights.forEach((light) => (light.on.on = checked));
+  setPending(room.id, true);
+  toggleError.value = "";
+
+  try {
+    assertNoErrors(await hub.manipulateRoom(groupedLight.rid, { on: { on: checked } }));
+  } catch (e) {
+    console.error(e);
+    room.lights.forEach((light, index) => (light.on.on = previous[index] ?? false));
+    toggleError.value = `Impossible de modifier la pièce « ${room.metadata.name} ».`;
+  } finally {
+    setPending(room.id, false);
+  }
+}
 
 useHead({
   bodyAttrs: {
@@ -52,15 +115,36 @@ useHead({
   <div v-else class="container">
     <UiElementsHeader :title="'Mes pièces'" :description="'Allumez ou éteignez une lampe, ou toute une pièce d\'un seul l\'interrupteur.'" />
 
+    <p v-if="toggleError" class="toggle-error" role="alert">{{ toggleError }}</p>
+
     <div class="content">
       <div v-for="room in data ?? []" :key="room.id" class="room-item">
         <div class="room-header">
-          <h2>{{ getRoomName(room.metadata.name) }}</h2>
+          <div class="room-title">
+            <h2>{{ room.metadata.name }}</h2>
+            <p class="room-summary">{{ roomSummary(room) }}</p>
+          </div>
+
+          <input
+              type="checkbox"
+              :checked="isRoomOn(room)"
+              :disabled="pendingIds.includes(room.id) || room.lights.length === 0"
+              :aria-label="`Allumer ou éteindre toute la pièce ${room.metadata.name}`"
+              @change="toggleRoom(room, $event)"
+          />
         </div>
 
         <div class="room-content">
           <div v-for="light in room.lights" :key="light.id" class="room-light">
             <h3>{{ light.metadata.name }}</h3>
+
+            <input
+                type="checkbox"
+                :checked="light.on.on"
+                :disabled="pendingIds.includes(light.id)"
+                :aria-label="`Allumer ou éteindre ${light.metadata.name}`"
+                @change="toggleLight(light, $event)"
+            />
           </div>
         </div>
       </div>

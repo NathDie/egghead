@@ -1,9 +1,13 @@
-export interface HubRoomChildren {
-    rid: string
-    rtype: string
+export interface HubError {
+    description: string
 }
 
-export interface HubRoomService {
+export interface HubResponse<T> {
+    errors: HubError[]
+    data: T
+}
+
+export interface HubResourceRef {
     rid: string
     rtype: string
 }
@@ -17,35 +21,34 @@ export interface HubOn {
     on: boolean
 }
 
+export interface HubOnPayload {
+    on: HubOn
+}
+
 export interface HubDimming {
-    "brightness": number,
-    "min_dim_level": number
+    brightness: number
+    min_dim_level?: number
 }
 
 export interface HubRoom {
     id: string
-    children: HubRoomChildren[]
-    services: HubRoomService[]
+    children: HubResourceRef[]
+    services: HubResourceRef[]
     metadata: HubMetaData
     type: string
 }
 
-export interface HubRoomResult {
-    data: HubRoom[]
-}
+export type HubRoomResult = HubResponse<HubRoom[]>
 
 export interface HubLight {
-    data: {
-        id: string
-        children: HubRoomChildren[]
-        services: HubRoomService[]
-        metadata: HubMetaData
-        on: boolean
-        dimming: HubDimming,
-        type: string
-    }
+    id: string
+    owner: HubResourceRef
+    metadata: HubMetaData
+    on: HubOn
+    dimming?: HubDimming
+    type: string
 }
 
-export interface HubLightResult {
-    data: HubLight[]
-}
+export type HubLightResult = HubResponse<HubLight[]>
+
+export type HubLightManipulateResult = HubResponse<HubResourceRef[]>

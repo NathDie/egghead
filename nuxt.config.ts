@@ -21,10 +21,10 @@ export default defineNuxtConfig({
   css: ['~/assets/scss/main.scss'],
 
   runtimeConfig: {
+    hubUrl: '', // overridden by NUXT_HUB_URL
+    hubToken: '', // overridden by NUXT_HUB_TOKEN
     public: {
-      apiUrl: '',
-      hubUrl: '',
-      hubToken: '',
+      apiUrl: '', // overridden by NUXT_PUBLIC_API_URL
     },
   },
 })

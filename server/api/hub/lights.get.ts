@@ -1,0 +1,1 @@
+export default defineEventHandler((event) => hubFetch(event, '/clip/v2/resource/light'))

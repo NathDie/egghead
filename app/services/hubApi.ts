@@ -1,13 +1,25 @@
-import type { HubLightResult, HubRoomResult } from '~/types/hub_models'
-
-const roomEndpoint = 'clip/v2/resource/room'
-const lightEndpoint = 'clip/v2/resource/light'
+import type {
+    HubLightManipulateResult,
+    HubLightResult,
+    HubOnPayload,
+    HubRoomResult,
+} from '~/types/hub_models'
 
 export function useHubService() {
     const hubApi = useHubApi()
 
     return {
-        getRooms: () => hubApi<HubRoomResult>(`/${roomEndpoint}`),
-        getLights: () => hubApi<HubLightResult>(`/${lightEndpoint}`),
+        getRooms: () => hubApi<HubRoomResult>('/rooms'),
+        getLights: () => hubApi<HubLightResult>('/lights'),
+        manipulateLight: (id: string, body: HubOnPayload) =>
+            hubApi<HubLightManipulateResult>(`/lights/${id}`, {
+                method: 'PUT',
+                body,
+            }),
+        manipulateRoom: (groupedLightId: string, body: HubOnPayload) =>
+            hubApi<HubLightManipulateResult>(`/grouped-lights/${groupedLightId}`, {
+                method: 'PUT',
+                body,
+            }),
     }
 }
