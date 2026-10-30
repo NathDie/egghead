@@ -112,6 +112,10 @@ header {
       gap: 1rem;
       overflow-y: scroll;
 
+      @include lg {
+        overflow-y: auto;
+      }
+
       a {
         display: flex;
         align-items: center;

@@ -9,7 +9,6 @@
         <main>
           <slot />
         </main>
-        <UiFooter />
       </Body>
     </Html>
   </div>
