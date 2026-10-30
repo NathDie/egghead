@@ -66,7 +66,7 @@ function roomSummary(room: RoomWithLights): string {
   if (total === 0) return "Aucune lampe";
 
   const on = onCount(room);
-  return `${total} ${total > 1 ? "lampes" : "lampe"} · ${on} ${on > 1 ? "allumées" : "allumée"}`;
+  return `${on} sur ${total} ${total > 1 ? "allumées" : "allumée"}`;
 }
 
 async function toggleRoom(room: RoomWithLights, checked: boolean) {
@@ -122,17 +122,28 @@ useHead({
             <p class="room-summary">{{ roomSummary(room) }}</p>
           </div>
 
-          <UiElementsToggleSwitcher
-              :checked="isRoomOn(room)"
-              :disabled="pendingIds.includes(room.id) || room.lights.length === 0"
-              :label="`Allumer ou éteindre toute la pièce ${room.metadata.name}`"
-              @change="toggleRoom(room, $event)"
-          />
+          <div class="room-all">
+            <span>Toute la pièce</span>
+            <UiElementsToggleSwitcher
+                :checked="isRoomOn(room)"
+                :disabled="pendingIds.includes(room.id) || room.lights.length === 0"
+                :label="`Allumer ou éteindre toute la pièce ${room.metadata.name}`"
+                @change="toggleRoom(room, $event)"
+            />
+          </div>
         </div>
 
         <div class="room-content">
           <div v-for="light in room.lights" :key="light.id" class="room-light">
-            <h3>{{ light.metadata.name }}</h3>
+            <div class="room-light--content">
+              <div class="icon" :class="{on: light.on.on}">
+                <UiIconsFlame />
+              </div>
+              <div class="text">
+                <h3>{{ light.metadata.name }}</h3>
+                <p>{{ light.on.on ? 'Allumée' : 'Éteinte'}}</p>
+              </div>
+            </div>
 
             <UiElementsToggleSwitcher
                 :checked="light.on.on"
