@@ -27,3 +27,17 @@ export interface ReminderPayload {
     description: string
     recurring: string
 }
+
+interface MonitoringFields {
+    name: string
+    link: string
+    active: boolean
+}
+
+export interface Monitoring extends MonitoringFields {
+    id: string
+}
+
+export type MonitoringPayload = MonitoringFields
+
+export type MonitoringUpdatePayload = Partial<MonitoringFields>
