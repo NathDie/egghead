@@ -1,0 +1,78 @@
+@use "../abstracts/index" as *;
+
+.form {
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+
+    @include lg {
+      flex-direction: row;
+    }
+
+    &:not(:last-of-type) {
+      margin-bottom: 1rem;
+    }
+
+    &.full {
+      width: 100%;
+    }
+
+    .form-group {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-size: .875rem;
+        line-height: 1;
+        font-weight: 500;
+      }
+
+      input, textarea {
+        font-size: .875rem;
+        line-height: 1.25rem;
+        border: 1px solid var(--color-downing-sand);
+        outline: none;
+        border-radius: 0.5rem;
+
+        &:focus-visible {
+          border-color: var(--color-lucidity);
+        }
+      }
+
+      input {
+        padding: 0.25rem 0.75rem;
+        height: 2.25rem;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 3.75rem;
+        padding: 0.5rem 0.75rem;
+      }
+    }
+
+    button[type=submit] {
+      background: var(--color-lucidity);
+      border: 1px solid var(--color-lucidity);
+      color: var(--color-white);
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      font-size: .875rem;
+      line-height: 1.25rem;
+
+      &:hover {
+        background: var(--color-lucidity2);
+      }
+
+      &:disabled {
+        opacity: .5;
+        pointer-events: none;
+      }
+    }
+  }
+}

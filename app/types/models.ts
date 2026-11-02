@@ -20,3 +20,10 @@ export interface Reminder {
     description: string
     recurring: string
 }
+
+export interface ReminderPayload {
+    title: string
+    remind_at: string
+    description: string
+    recurring: string
+}

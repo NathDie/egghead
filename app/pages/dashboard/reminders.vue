@@ -1,4 +1,3 @@
-```vue
 <script setup lang="ts">
 import { getReminders, deleteReminder } from "~/services/api.ts";
 
@@ -10,7 +9,7 @@ const formatDate = (date: string) => {
   }).format(new Date(date));
 };
 
-const { data, pending, error } = await useAsyncData("home-data", async () => {
+const { data, pending, error, refresh } = await useAsyncData("home-data", async () => {
   const [reminders] = await Promise.all([
     getReminders(),
   ]);
@@ -62,44 +61,49 @@ useHead({
     />
 
     <div class="content">
-      <div class="reminders">
-        <div class="reminder-empty" v-if="data?.reminders && data?.reminders.length < 1">
-          Aucun rappel pour le moment
-        </div>
-        <div
-            v-else
-            v-for="reminder in data?.reminders"
-            :key="reminder.id"
-            class="reminder"
-        >
-          <UiElementsLoader v-show="deletingId === reminder.id" />
-
-          <div class="top">
-            <h2>{{ reminder.title }}</h2>
-            <p>{{ reminder.description }}</p>
+      <section id="formulaire" class="formulaire">
+        <FormReminder @saved="refresh" />
+      </section>
+      <section id="data" class="data">
+        <div class="reminders">
+          <div class="reminder-empty" v-if="data?.reminders && data?.reminders.length < 1">
+            Aucun rappel pour le moment
           </div>
+          <div
+              v-else
+              v-for="reminder in data?.reminders"
+              :key="reminder.id"
+              class="reminder"
+          >
+            <UiElementsLoader v-show="deletingId === reminder.id" />
 
-          <div class="bottom">
-            <div class="remind">
-              <UiIconsCalendar />
-              <span>{{ formatDate(reminder.remind_at) }}</span>
+            <div class="top">
+              <h2>{{ reminder.title }}</h2>
+              <p>{{ reminder.description }}</p>
             </div>
 
-            <div class="recurring">
-              <UiIconsRepeat />
-              <span>{{ reminder.recurring }}</span>
-            </div>
+            <div class="bottom">
+              <div class="remind">
+                <UiIconsCalendar />
+                <span>{{ formatDate(reminder.remind_at) }}</span>
+              </div>
 
-            <button
-                type="button"
-                :disabled="deletingId === reminder.id"
-                @click="handleDelete(reminder.id)"
-            >
-              <UiIconsTrash />
-            </button>
+              <div class="recurring">
+                <UiIconsRepeat />
+                <span>{{ reminder.recurring }}</span>
+              </div>
+
+              <button
+                  type="button"
+                  :disabled="deletingId === reminder.id"
+                  @click="handleDelete(reminder.id)"
+              >
+                <UiIconsTrash />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   </div>
 </template>
