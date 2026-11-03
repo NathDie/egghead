@@ -1,3 +1,5 @@
+@use "../abstracts/index" as *;
+
 .page-task {
   .container {
     .formulaire {
@@ -31,17 +33,6 @@
           padding: 1rem;
           position: relative;
 
-          &.disabled {
-            background-color: hsl(var(--color-pearl-sugar) / .4);
-            border-style: dashed;
-
-            button.update-activation {
-              border-style: dashed;
-              background-color: #0000;
-              color: var(--color-durango-blue);
-            }
-          }
-
           .top {
             margin-bottom: 0.85rem;
 
@@ -69,17 +60,27 @@
 
           .bottom {
             display: flex;
-            align-items: center;
             gap: 0.5rem;
+            flex-direction: column;
+
+            @include lg {
+              flex-direction: row;
+              align-items: center;
+            }
 
             > div {
-              display: flex;
+              display: inline-flex;
+              align-self: start;
               align-items: center;
               gap: 0.5rem;
               font-weight: 600;
               font-size: .75rem;
               line-height: 1rem;
               border: 1px solid;
+
+              @include lg {
+                align-self: center;
+              }
 
               svg {
                 width: 1rem;
@@ -121,29 +122,6 @@
                   border-color: var(--color-durango-blue);
                 }
               }
-            }
-          }
-
-          button.update-activation {
-            border-radius: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.15rem 1rem;
-            border: 1px solid #1e40674d;
-            background-color: #1e40671a;
-            color: var(--color-lucidity);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-
-            &:disabled {
-              svg {
-                display: none;
-              }
-            }
-
-            svg {
-              width: 1rem;
             }
           }
 
