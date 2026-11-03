@@ -41,3 +41,19 @@ export interface Monitoring extends MonitoringFields {
 export type MonitoringPayload = MonitoringFields
 
 export type MonitoringUpdatePayload = Partial<MonitoringFields>
+
+interface TaskFields {
+    title: string
+    description: string
+    status: string
+    priority: string
+    due_date: string
+}
+
+export interface Task extends TaskFields {
+    id: string
+}
+
+export type TaskPayload = TaskFields
+
+export type TaskUpdatePayload = Partial<TaskFields>

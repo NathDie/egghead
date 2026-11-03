@@ -3,6 +3,7 @@ import type {AuthPayload, AuthResponse, ReminderPayload} from '~/types/models';
 const authEndpoint = 'auth';
 const reminderEndpoint = 'reminders'
 const monitoringEndpoint = 'monitorings'
+const taskEndpoint = 'tasks'
 
 export async function login(payload: AuthPayload) {
     const config = useRuntimeConfig();
@@ -82,6 +83,51 @@ export async function updateMonitoring(id: string, payload: MonitoringUpdatePayl
     const api = useApi()
 
     return api<Monitoring>(`/${monitoringEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/merge-patch+json'
+        },
+        body: payload
+    });
+}
+
+export async function getTasks() {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Task[]>(`/${taskEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'GET',
+    });
+}
+
+export async function deleteTask(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Task>(`/${taskEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveTask(payload: TaskPayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Task>(`/${taskEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
+        body: payload
+    });
+}
+
+export async function updateTask(id: string, payload: TaskUpdatePayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Task>(`/${taskEndpoint}/${id}`, {
         baseURL: config.public.apiUrl,
         method: 'PATCH',
         headers: {

@@ -32,6 +32,7 @@ onBeforeUnmount(() => document.removeEventListener("click", onClickOutside));
 
     <button type="button" class="select-trigger" @click="isOpen = !isOpen">
       {{ selectedLabel }}
+      <UiIconsChevron />
     </button>
 
     <ul v-show="isOpen" class="select-list">
