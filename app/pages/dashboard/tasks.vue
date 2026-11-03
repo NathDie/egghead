@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {getTasks, deleteTask} from "~/services/api.ts";
+import { getTasks, deleteTask, updateTask } from "~/services/api.ts";
+import type { Task } from "~/types/models";
 
 const formatDate = (date: string) => {
   return new Intl.DateTimeFormat("fr-FR", {
@@ -9,13 +10,27 @@ const formatDate = (date: string) => {
   }).format(new Date(date));
 };
 
-const { data, pending, error, refresh } = await useAsyncData("home-data", async () => {
-  const [tasks] = await Promise.all([
-    getTasks(),
-  ]);
+const statusOptions = [
+  { value: "todo", label: "À faire" },
+  { value: "in_progress", label: "En cours" },
+  { value: "pending", label: "En attente" },
+  { value: "done", label: "Terminé" },
+  { value: "snoozed", label: "Reporté" },
+  { value: "upcoming", label: "À venir" },
+  { value: "overdue", label: "En retard" },
+];
 
-  return { tasks };
-});
+const { data, pending, error, refresh } = await useAsyncData(
+    "home-data",
+    async () => {
+      const [tasks] = await Promise.all([
+        getTasks(),
+      ]);
+
+      return { tasks };
+    },
+    { deep: true },
+);
 
 const deletingId = ref<number | string | null>(null);
 
@@ -36,6 +51,29 @@ const handleDelete = async (id: string) => {
     console.error("Impossible de supprimer la tâche :", err);
   } finally {
     deletingId.value = null;
+  }
+};
+
+const updatingIds = ref<string[]>([]);
+const statusError = ref("");
+
+const handleStatusChange = async (task: Task, status: string) => {
+  if (status === task.status || updatingIds.value.includes(task.id)) return;
+
+  const previous = task.status;
+
+  task.status = status;
+  updatingIds.value = [...updatingIds.value, task.id];
+  statusError.value = "";
+
+  try {
+    await updateTask(task.id, { status });
+  } catch (err) {
+    console.error("Impossible de modifier le statut :", err);
+    task.status = previous;
+    statusError.value = `Impossible de modifier le statut de « ${task.title} ».`;
+  } finally {
+    updatingIds.value = updatingIds.value.filter((id) => id !== task.id);
   }
 };
 
@@ -60,6 +98,8 @@ useHead({
         :description="'Vos tâches, leur statut et leur priorité'"
     />
 
+    <p v-if="statusError" class="status-error" role="alert">{{ statusError }}</p>
+
     <div class="content">
       <section id="formulaire" class="formulaire">
         <FormTask @saved="refresh" />
@@ -83,6 +123,14 @@ useHead({
             </div>
 
             <div class="bottom">
+              <div class="status">
+                <UiElementsFormSelect
+                    :model-value="task.status"
+                    :options="statusOptions"
+                    @update:model-value="handleStatusChange(task, $event)"
+                />
+              </div>
+
               <div class="priority" :class="task.priority">
                 <UiIconsFlag />
                 <span>{{ task.priority }}</span>

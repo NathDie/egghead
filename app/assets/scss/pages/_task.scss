@@ -85,6 +85,15 @@
                 width: 1rem;
               }
 
+              &.status {
+                border: none;
+                width: 8rem;
+
+                > div {
+                  width: 100%;
+                }
+              }
+
               &.due-date {
                 border-radius: 0.25rem;
                 padding: 0.125rem 0.5rem;
