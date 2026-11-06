@@ -62,7 +62,7 @@ useHead({
 
     <div class="content">
       <section id="formulaire" class="formulaire">
-        <FormReminder @saved="refresh" />
+        <FormCreateReminder @saved="refresh" />
       </section>
       <section id="data" class="data">
         <div class="reminders">

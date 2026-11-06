@@ -80,7 +80,7 @@ useHead({
 
     <div class="content">
       <section id="formulaire" class="formulaire">
-        <FormMonitoring @saved="refresh"/>
+        <FormCreateMonitoring @saved="refresh"/>
       </section>
 
       <section id="data" class="data">
