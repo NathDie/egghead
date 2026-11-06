@@ -22,7 +22,7 @@
   .modal {
     padding: 2rem;
     border-radius: 1rem;
-    background-color: var(--color-white);
+    background-color: var(--color-pearl-sugar);
     position: relative;
     max-height: 100vh;
     overflow-y: auto;
@@ -61,6 +61,12 @@
         &:hover {
           color: var(--color-glowing-brake-disc);
         }
+      }
+    }
+
+    .modal-content {
+      input, textarea, .select-trigger {
+        background: none;
       }
     }
 
