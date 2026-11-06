@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const openActions = ref(false);
+const openActions = useExclusiveOpen("list-actions");
 
 const toggleOpenActions = () => {
   openActions.value = !openActions.value
