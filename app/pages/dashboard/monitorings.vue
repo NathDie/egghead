@@ -134,6 +134,15 @@ useHead({
 
             <UiElementsListActions>
               <template #actions>
+                <UiElementsModal :show-actions="false" :modal-title="'Modifier l\'alerte'">
+                  <template #modal-button>
+                    <UiIconsPencil /> Modifier
+                  </template>
+                  <template #modal-content="{ close }">
+                    <FormEditMonitoring :monitoring="monitoring" @saved="refresh" @cancel="close" />
+                  </template>
+                </UiElementsModal>
+
                 <button
                     type="button"
                     class="delete"
