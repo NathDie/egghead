@@ -69,7 +69,7 @@ const submitForm = async () => {
   <div class="reminder-form-container">
     <UiElementsLoader v-if="sending"/>
 
-    <form class="reminder-form form" @submit.prevent="submitForm" v-show="!sending">
+    <form class="reminder-form form edit-form" @submit.prevent="submitForm" v-show="!sending">
       <div class="form-row full">
         <div class="form-group">
           <label for="name">Nom*</label>
@@ -95,9 +95,11 @@ const submitForm = async () => {
         <UiElementsFlashMessage v-if="success" :type="'success'">Rappel modifié.</UiElementsFlashMessage>
       </div>
 
-      <div class="form-row">
-        <button type="button" class="btn btn-default" @click="emit('cancel')">Annuler</button>
-        <button type="submit" :disabled="!isValid || sending">Modifier le rappel</button>
+      <div class="form-row actions">
+        <button type="button" @click="emit('cancel')">Annuler</button>
+        <button type="submit" :disabled="!isValid || sending">
+          <UiIconsSave /> Enregistrer
+        </button>
       </div>
     </form>
   </div>

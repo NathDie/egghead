@@ -34,15 +34,29 @@
     }
 
     .modal-header {
-      position: absolute;
-      top: 0.85rem;
-      right: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+
+      span {
+        color: var(--color-lucidity);
+        font-weight: 500;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-family: 'Pirata One', serif;
+      }
 
       button {
         background-color: transparent;
         border: none;
         color: var(--color-liberty-blue);
         font-size: 1rem;
+        margin-left: auto;
+
+        svg {
+          width: 1rem;
+        }
 
         &:hover {
           color: var(--color-glowing-brake-disc);

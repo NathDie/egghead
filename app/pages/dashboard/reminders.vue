@@ -96,6 +96,14 @@ useHead({
 
             <UiElementsListActions>
               <template #actions>
+                <UiElementsModal :show-actions="false" :modal-title="'Modifier le rappel'">
+                  <template #modal-button>
+                    <UiIconsPencil /> Modifier
+                  </template>
+                  <template #modal-content="{ close }">
+                    <FormEditReminder :reminder="reminder" @saved="refresh" @cancel="close" />
+                  </template>
+                </UiElementsModal>
                 <button
                     type="button"
                     class="delete"
@@ -104,14 +112,6 @@ useHead({
                 >
                   <UiIconsTrash /> Supprimer
                 </button>
-                <UiElementsModal :show-actions="false">
-                  <template #modal-button>
-                    <UiIconsBell /> Modifier
-                  </template>
-                  <template #modal-content="{ close }">
-                    <FormEditReminder :reminder="reminder" @saved="refresh" @cancel="close" />
-                  </template>
-                </UiElementsModal>
               </template>
             </UiElementsListActions>
           </div>

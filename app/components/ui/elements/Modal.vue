@@ -4,6 +4,7 @@ const isOpen = ref(false)
 defineProps({
   modalClass: String,
   buttonClass: String,
+  modalTitle: String,
   showActions: {
     type: Boolean,
     default: true
@@ -54,7 +55,8 @@ onUnmounted(() => {
 
         <div class="modal" role="dialog" aria-modal="true" @click.stop :class="modalClass">
           <div class="modal-header">
-            <button type="button" @click="closeModal">X</button>
+            <span v-if="modalTitle">{{ modalTitle }}</span>
+            <button type="button" class="close" @click="closeModal"><UiIconsX /></button>
           </div>
 
           <div class="modal-content">

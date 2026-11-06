@@ -75,4 +75,31 @@
       }
     }
   }
+
+  &.edit-form {
+    .actions {
+      justify-content: end;
+      margin-top: 2rem;
+
+      button[type=submit] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      button[type=button] {
+        background: none;
+        border: none;
+        color: var(--color-lucidity);
+        font-weight: 500;
+        font-size: .875rem;
+        line-height: 1.25rem;
+
+        &:hover {
+          color: var(--color-lucidity2);
+        }
+      }
+    }
+  }
 }
