@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { getTasks, deleteTask, updateTask } from "~/services/api.ts";
-import type { Task } from "~/types/models";
+import {getTasks, deleteTask, updateTask} from "~/services/api.ts";
+import type {Task} from "~/types/models";
 
 const formatDate = (date: string) => {
   return new Intl.DateTimeFormat("fr-FR", {
@@ -11,25 +11,25 @@ const formatDate = (date: string) => {
 };
 
 const statusOptions = [
-  { value: "todo", label: "À faire" },
-  { value: "in_progress", label: "En cours" },
-  { value: "pending", label: "En attente" },
-  { value: "done", label: "Terminé" },
-  { value: "snoozed", label: "Reporté" },
-  { value: "upcoming", label: "À venir" },
-  { value: "overdue", label: "En retard" },
+  {value: "todo", label: "À faire"},
+  {value: "in_progress", label: "En cours"},
+  {value: "pending", label: "En attente"},
+  {value: "done", label: "Terminé"},
+  {value: "snoozed", label: "Reporté"},
+  {value: "upcoming", label: "À venir"},
+  {value: "overdue", label: "En retard"},
 ];
 
-const { data, pending, error, refresh } = await useAsyncData(
+const {data, pending, error, refresh} = await useAsyncData(
     "home-data",
     async () => {
       const [tasks] = await Promise.all([
         getTasks(),
       ]);
 
-      return { tasks };
+      return {tasks};
     },
-    { deep: true },
+    {deep: true},
 );
 
 const deletingId = ref<number | string | null>(null);
@@ -67,7 +67,7 @@ const handleStatusChange = async (task: Task, status: string) => {
   statusError.value = "";
 
   try {
-    await updateTask(task.id, { status });
+    await updateTask(task.id, {status});
   } catch (err) {
     console.error("Impossible de modifier le statut :", err);
     task.status = previous;
@@ -85,7 +85,7 @@ useHead({
 </script>
 
 <template>
-  <UiElementsLoaderLogo v-if="pending" />
+  <UiElementsLoaderLogo v-if="pending"/>
 
   <div v-else-if="error" class="container">
     <p>Impossible de charger les tâches.</p>
@@ -102,12 +102,12 @@ useHead({
 
     <div class="content">
       <section id="formulaire" class="formulaire">
-        <FormCreateTask @saved="refresh" />
+        <FormCreateTask @saved="refresh"/>
       </section>
       <section id="data" class="data">
         <div class="tasks">
           <div class="task-empty" v-if="data?.tasks && data?.tasks.length < 1">
-            Aucun rappel pour le moment
+            Aucune tâche pour le moment
           </div>
           <div
               v-else
@@ -115,7 +115,7 @@ useHead({
               :key="task.id"
               class="task"
           >
-            <UiElementsLoader v-show="deletingId === task.id" />
+            <UiElementsLoader v-show="deletingId === task.id"/>
 
             <div class="top">
               <h2>{{ task.title }}</h2>
@@ -132,25 +132,35 @@ useHead({
               </div>
 
               <div class="priority" :class="task.priority">
-                <UiIconsFlag />
+                <UiIconsFlag/>
                 <span>{{ task.priority }}</span>
               </div>
 
               <div class="due-date">
-                <UiIconsCalendar />
+                <UiIconsCalendar/>
                 <span>{{ formatDate(task.due_date) }}</span>
               </div>
             </div>
 
             <UiElementsListActions>
               <template #actions>
+                <UiElementsModal :show-actions="false" :modal-title="'Modifier la tâche'">
+                  <template #modal-button>
+                    <UiIconsPencil/>
+                    Modifier
+                  </template>
+                  <template #modal-content="{ close }">
+                    <FormEditTask :task="task" @saved="refresh" @cancel="close"/>
+                  </template>
+                </UiElementsModal>
                 <button
                     type="button"
                     class="delete"
                     :disabled="deletingId === task.id"
                     @click="handleDelete(task.id)"
                 >
-                  <UiIconsTrash/> Supprimer
+                  <UiIconsTrash/>
+                  Supprimer
                 </button>
               </template>
             </UiElementsListActions>
