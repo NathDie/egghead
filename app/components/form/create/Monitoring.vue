@@ -35,7 +35,7 @@ const submitForm = async () => {
     emit("saved");
   } catch (e) {
     console.error(e);
-    error.value = "Impossible d'enregistrer l'alerte.";
+    error.value = "Impossible d'enregistrer la supervision.";
   } finally {
     sending.value = false;
   }
@@ -60,11 +60,11 @@ const submitForm = async () => {
 
       <div v-if="error || success" class="form-row">
         <UiElementsFlashMessage v-if="error" :type="'error'">{{ error }}</UiElementsFlashMessage>
-        <UiElementsFlashMessage v-if="success" :type="'success'">Rappel ajouté.</UiElementsFlashMessage>
+        <UiElementsFlashMessage v-if="success" :type="'success'">La supervision a bien été ajouté.</UiElementsFlashMessage>
       </div>
 
       <div class="form-row">
-        <button type="submit" :disabled="!isValid || sending">Ajouter le monitoring</button>
+        <button type="submit" :disabled="!isValid || sending">Ajouter une supervision</button>
       </div>
     </form>
   </div>

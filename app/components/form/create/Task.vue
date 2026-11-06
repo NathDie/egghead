@@ -9,7 +9,7 @@ const sending = ref(false);
 const error = ref("");
 const success = ref(false);
 
-const name = ref("");
+const title = ref("");
 const date = ref("");
 const description = ref("");
 const priority = ref("low");
@@ -31,7 +31,7 @@ const statusOptions = [
   { value: "overdue", label: "En retard" }
 ];
 
-const isValid = computed(() => name.value.trim() !== "" && date.value !== "");
+const isValid = computed(() => title.value.trim() !== "" && date.value !== "");
 
 const submitForm = async () => {
   if (!isValid.value || sending.value) return;
@@ -42,14 +42,14 @@ const submitForm = async () => {
 
   try {
     await saveTask({
-      title: name.value.trim(),
+      title: title.value.trim(),
       due_date: new Date(date.value).toISOString(),
       description: description.value.trim(),
       status: status.value,
       priority: priority.value
     });
 
-    name.value = "";
+    title.value = "";
     date.value = "";
     description.value = "";
     status.value = "todo";
@@ -73,8 +73,8 @@ const submitForm = async () => {
     <form class="task-form form" @submit.prevent="submitForm" v-show="!sending">
       <div class="form-row full">
         <div class="form-group">
-          <label for="name">Nom*</label>
-          <input id="name" v-model="name" name="name" type="text" required placeholder="Nom de la tâche">
+          <label for="title">Titre*</label>
+          <input id="title" v-model="title" name="title" type="text" required placeholder="Titre de la tâche">
         </div>
         <div class="form-group">
           <UiElementsFormSelect v-model="status" label="Récurrence" :options="statusOptions" />
@@ -96,11 +96,11 @@ const submitForm = async () => {
 
       <div v-if="error || success" class="form-row">
         <UiElementsFlashMessage v-if="error" :type="'error'">{{ error }}</UiElementsFlashMessage>
-        <UiElementsFlashMessage v-if="success" :type="'success'">Tâche ajoutée.</UiElementsFlashMessage>
+        <UiElementsFlashMessage v-if="success" :type="'success'">La tâche a été ajoutée.</UiElementsFlashMessage>
       </div>
 
       <div class="form-row">
-        <button type="submit" :disabled="!isValid || sending">Ajouter la tâche</button>
+        <button type="submit" :disabled="!isValid || sending">Ajouter une tâche</button>
       </div>
     </form>
   </div>

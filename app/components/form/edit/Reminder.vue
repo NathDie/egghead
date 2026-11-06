@@ -72,8 +72,8 @@ const submitForm = async () => {
     <form class="reminder-form form edit-form" @submit.prevent="submitForm" v-show="!sending">
       <div class="form-row full">
         <div class="form-group">
-          <label for="name">Nom*</label>
-          <input id="name" v-model="form.title" name="name" type="text" required placeholder="Nom du rappel">
+          <label for="title">Nom*</label>
+          <input id="title" v-model="form.title" name="title" type="text" required placeholder="Titre du rappel">
         </div>
         <div class="form-group">
           <label for="date">Date*</label>

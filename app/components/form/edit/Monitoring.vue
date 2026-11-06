@@ -46,7 +46,7 @@ const submitForm = async () => {
     emit("saved");
   } catch (e) {
     console.error(e);
-    error.value = "Impossible de modifier le suivi de ce site.";
+    error.value = "Impossible de modifier la supervision de ce site.";
   } finally {
     sending.value = false;
   }
@@ -71,7 +71,7 @@ const submitForm = async () => {
 
       <div v-if="error || success" class="form-row">
         <UiElementsFlashMessage v-if="error" :type="'error'">{{ error }}</UiElementsFlashMessage>
-        <UiElementsFlashMessage v-if="success" :type="'success'">Le suivi du site ajouté.</UiElementsFlashMessage>
+        <UiElementsFlashMessage v-if="success" :type="'success'">La supervision a été ajouté.</UiElementsFlashMessage>
       </div>
 
       <div class="form-row actions">
