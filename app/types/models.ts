@@ -28,6 +28,8 @@ export interface ReminderPayload {
     recurring: string
 }
 
+export type ReminderUpdatePayload = Partial<Reminder>
+
 interface MonitoringFields {
     name: string
     link: string

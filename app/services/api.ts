@@ -1,4 +1,4 @@
-import type {AuthPayload, AuthResponse, ReminderPayload} from '~/types/models';
+import type {AuthPayload, AuthResponse, ReminderPayload, ReminderUpdatePayload} from '~/types/models';
 
 const authEndpoint = 'auth';
 const reminderEndpoint = 'reminders'
@@ -43,6 +43,20 @@ export async function saveReminder(payload: ReminderPayload) {
     return api<Reminder>(`/${reminderEndpoint}`, {
         baseURL: config.public.apiUrl,
         method: 'POST',
+        body: payload
+    });
+}
+
+export async function updateReminder(id: string, payload: ReminderUpdatePayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Reminder>(`/${reminderEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/merge-patch+json'
+        },
         body: payload
     });
 }
