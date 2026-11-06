@@ -130,16 +130,20 @@ useHead({
                   }}
                 </span>
               </button>
-
-              <button
-                  type="button"
-                  class="delete"
-                  :disabled="deletingId === monitoring.id"
-                  @click="handleDelete(monitoring.id)"
-              >
-                <UiIconsTrash/>
-              </button>
             </div>
+
+            <UiElementsListActions>
+              <template #actions>
+                <button
+                    type="button"
+                    class="delete"
+                    :disabled="deletingId === monitoring.id"
+                    @click="handleDelete(monitoring.id)"
+                >
+                  <UiIconsTrash/> Supprimer
+                </button>
+              </template>
+            </UiElementsListActions>
           </div>
         </div>
       </section>

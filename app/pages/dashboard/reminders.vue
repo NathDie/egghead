@@ -92,15 +92,20 @@ useHead({
                 <UiIconsRepeat />
                 <span>{{ reminder.recurring }}</span>
               </div>
-
-              <button
-                  type="button"
-                  :disabled="deletingId === reminder.id"
-                  @click="handleDelete(reminder.id)"
-              >
-                <UiIconsTrash />
-              </button>
             </div>
+
+            <UiElementsListActions>
+              <template #actions>
+                <button
+                    type="button"
+                    class="delete"
+                    :disabled="deletingId === reminder.id"
+                    @click="handleDelete(reminder.id)"
+                >
+                  <UiIconsTrash /> Supprimer
+                </button>
+              </template>
+            </UiElementsListActions>
           </div>
         </div>
       </section>

@@ -140,16 +140,20 @@ useHead({
                 <UiIconsCalendar />
                 <span>{{ formatDate(task.due_date) }}</span>
               </div>
-
-              <button
-                  type="button"
-                  class="delete"
-                  :disabled="deletingId === task.id"
-                  @click="handleDelete(task.id)"
-              >
-                <UiIconsTrash />
-              </button>
             </div>
+
+            <UiElementsListActions>
+              <template #actions>
+                <button
+                    type="button"
+                    class="delete"
+                    :disabled="deletingId === task.id"
+                    @click="handleDelete(task.id)"
+                >
+                  <UiIconsTrash/> Supprimer
+                </button>
+              </template>
+            </UiElementsListActions>
           </div>
         </div>
       </section>
