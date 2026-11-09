@@ -4,6 +4,8 @@ const authEndpoint = 'auth';
 const reminderEndpoint = 'reminders'
 const monitoringEndpoint = 'monitorings'
 const taskEndpoint = 'tasks'
+const maintenanceEndpoint = 'maintenances'
+const maintenanceLogEndpoint = 'maintenance-logs'
 
 export async function login(payload: AuthPayload) {
     const config = useRuntimeConfig();
@@ -147,6 +149,72 @@ export async function updateTask(id: string, payload: TaskUpdatePayload) {
         headers: {
             'Content-Type': 'application/merge-patch+json'
         },
+        body: payload
+    });
+}
+
+export async function getMaintenances() {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Maintenance[]>(`/${maintenanceEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'GET',
+    });
+}
+
+export async function deleteMaintenance(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Maintenance>(`/${maintenanceEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveMaintenance(payload: MaintenancePayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Maintenance>(`/${maintenanceEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
+        body: payload
+    });
+}
+
+export async function updateMaintenance(id: string, payload: MaintenanceUpdatePayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Maintenance>(`/${maintenanceEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/merge-patch+json'
+        },
+        body: payload
+    });
+}
+
+export async function deleteMaintenanceLog(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<MaintenanceLog>(`/${maintenanceLogEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveMaintenanceLog(payload: MaintenanceLogPayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<MaintenanceLog>(`/${maintenanceLogEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
         body: payload
     });
 }
