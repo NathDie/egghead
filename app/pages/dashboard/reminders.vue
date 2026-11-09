@@ -9,7 +9,7 @@ const formatDate = (date: string) => {
   }).format(new Date(date));
 };
 
-const { data, pending, error, refresh } = await useAsyncData("home-data", async () => {
+const { data, pending, error, refresh } = await useAsyncData("reminder-data", async () => {
   const [reminders] = await Promise.all([
     getReminders(),
   ]);

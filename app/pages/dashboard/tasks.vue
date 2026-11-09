@@ -21,7 +21,7 @@ const statusOptions = [
 ];
 
 const {data, pending, error, refresh} = await useAsyncData(
-    "home-data",
+    "task-data",
     async () => {
       const [tasks] = await Promise.all([
         getTasks(),
