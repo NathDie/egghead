@@ -32,7 +32,7 @@ async function signOut() {
     <div class="bottom">
 
       <nav>
-        <NuxtLink to="/dashboard">
+        <NuxtLink to="/dashboard" exact-active-class="is-active">
           <UiIconsCompass />
           <span>Accueil</span>
         </NuxtLink>
