@@ -59,3 +59,32 @@ export interface Task extends TaskFields {
 export type TaskPayload = TaskFields
 
 export type TaskUpdatePayload = Partial<TaskFields>
+
+interface MaintenanceFields {
+    title: string
+    description: string
+    frequency: string
+    status: string
+}
+
+export interface Maintenance extends  MaintenanceFields {
+    id: string
+    logs: MaintenanceLog
+}
+
+export type MaintenancePayload = MaintenanceFields
+
+export type MaintenanceUpdatePayload = Partial<MaintenanceFields>
+
+interface MaintenanceLogFields {
+    done_at: string
+    note: string
+}
+
+export interface MaintenanceLog extends MaintenanceLogFields {
+    id: string
+}
+
+export type MaintenanceLogPayload = MaintenanceLogFields
+
+export type MaintenanceLogUpdatePayload = Partial<MaintenanceFields>
