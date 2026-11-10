@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { deleteMaintenance } from "~/services/api";
-import type { Maintenance } from "~/types/models";
+import {deleteMaintenance} from "~/services/api";
+import type {Maintenance} from "~/types/models";
 
 defineProps<{
   maintenances: Maintenance[];
@@ -8,20 +8,21 @@ defineProps<{
 
 const emit = defineEmits<{
   deleted: [id: string];
+  refresh: [];
 }>();
 
 const recurrenceOptions = [
-  { value: "none", label: "Aucune" },
-  { value: "weekly", label: "Hebdomadaire" },
-  { value: "monthly", label: "Mensuelle" },
-  { value: "quarterly", label: "Trimestrielle" },
-  { value: "yearly", label: "Annuelle" },
+  {value: "none", label: "Aucune"},
+  {value: "weekly", label: "Hebdomadaire"},
+  {value: "monthly", label: "Mensuelle"},
+  {value: "quarterly", label: "Trimestrielle"},
+  {value: "yearly", label: "Annuelle"},
 ];
 
 const statusOptions = [
-  { value: "up_to_date", label: "À jour" },
-  { value: "todo", label: "À faire" },
-  { value: "overdue", label: "En retard" },
+  {value: "up_to_date", label: "À jour"},
+  {value: "todo", label: "À faire"},
+  {value: "overdue", label: "En retard"},
 ];
 
 const deletingId = ref<string | null>(null);
@@ -49,6 +50,14 @@ const handleDelete = async (id: string) => {
     deletingId.value = null;
   }
 };
+
+const refreshing = async () => {
+  try {
+    emit('refresh');
+  }catch (err) {
+    console.error("Impossible de mettre à jour la liste des maintenances :", err);
+  }
+}
 </script>
 
 <template>
@@ -71,17 +80,17 @@ const handleDelete = async (id: string) => {
       </div>
 
       <div class="frequency" v-if="maintenance.frequency">
-        <UiIconsRepeat />
+        <UiIconsRepeat/>
         {{ recurrenceOptions.find(option => option.value === maintenance.frequency)?.label }}
       </div>
 
       <div class="last-done-date" v-if="maintenance.last_done_at">
-        <UiIconsCalendar />
+        <UiIconsCalendar/>
         <span class="label">Fait le {{ formatDate(maintenance.last_done_at) }}</span>
       </div>
 
       <div class="next-due-date" v-if="maintenance.next_due_at">
-        <UiIconsCalendarClock />
+        <UiIconsCalendarClock/>
         <span class="label">Échéance {{ formatDate(maintenance.next_due_at) }}</span>
       </div>
     </div>
@@ -94,7 +103,7 @@ const handleDelete = async (id: string) => {
             Modifier
           </template>
           <template #modal-content="{ close }">
-            <!--                    <FormEditTask :task="task" @saved="refresh" @cancel="close"/>-->
+            <FormEditMaintenance :maintenance="maintenance" @saved="refreshing" @cancel="close"/>
           </template>
         </UiElementsModal>
         <button

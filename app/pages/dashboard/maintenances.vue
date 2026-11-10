@@ -53,6 +53,7 @@ useHead({
               v-else
               :maintenances="data?.maintenances ?? []"
               @deleted="handleDeleted"
+              @refresh="refresh"
           />
         </div>
       </section>
