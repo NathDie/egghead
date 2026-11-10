@@ -1,4 +1,10 @@
-import type {AuthPayload, AuthResponse, ReminderPayload, ReminderUpdatePayload} from '~/types/models';
+import type {
+    AuthPayload,
+    AuthResponse,
+    MaintenanceLogPayload,
+    ReminderPayload,
+    ReminderUpdatePayload
+} from '~/types/models';
 
 const authEndpoint = 'auth';
 const reminderEndpoint = 'reminders'

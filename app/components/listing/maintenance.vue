@@ -97,6 +97,15 @@ const refreshing = async () => {
 
     <UiElementsListActions>
       <template #actions>
+        <UiElementsModal :show-actions="false" :modal-title="'Historique la maintenance'">
+          <template #modal-button>
+            <UiIconsHistory/>
+            Historique
+          </template>
+          <template #modal-content="{ close }">
+            <FormCreateMaintenanceLog :maintenance="maintenance" @saved="refreshing" @cancel="close"/>
+          </template>
+        </UiElementsModal>
         <UiElementsModal :show-actions="false" :modal-title="'Modifier la maintenance'">
           <template #modal-button>
             <UiIconsPencil/>

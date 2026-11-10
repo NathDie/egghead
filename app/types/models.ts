@@ -87,6 +87,8 @@ export interface MaintenanceLog extends MaintenanceLogFields {
     id: string
 }
 
-export type MaintenanceLogPayload = MaintenanceLogFields
+export interface MaintenanceLogPayload extends MaintenanceLogFields {
+    maintenance: string
+}
 
 export type MaintenanceLogUpdatePayload = Partial<MaintenanceFields>
