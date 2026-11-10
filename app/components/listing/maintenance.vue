@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {deleteMaintenance} from "~/services/api";
+import {deleteMaintenance, deleteMaintenanceLog} from "~/services/api";
 import type {Maintenance} from "~/types/models";
 
 defineProps<{
@@ -8,6 +8,7 @@ defineProps<{
 
 const emit = defineEmits<{
   deleted: [id: string];
+  logDeleted: [maitenanceId: string, logId: string]
   refresh: [];
 }>();
 
@@ -26,14 +27,7 @@ const statusOptions = [
 ];
 
 const deletingId = ref<string | null>(null);
-
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(date));
-};
+const deletingLogId = ref<string | null>(null);
 
 const handleDelete = async (id: string) => {
   if (deletingId.value !== null) return;
@@ -51,6 +45,22 @@ const handleDelete = async (id: string) => {
   }
 };
 
+const handleDeleteLog = async (maintenanceId: string, logId: string) => {
+  if (deletingLogId.value !== null) return;
+
+  deletingLogId.value = logId;
+
+  try {
+    await deleteMaintenanceLog(logId);
+
+    emit("logDeleted", maintenanceId, logId);
+  } catch (err) {
+    console.error("Impossible de supprimer l'intervention :", err);
+  } finally {
+    deletingLogId.value = null;
+  }
+};
+
 const refreshing = async () => {
   try {
     emit('refresh');
@@ -58,6 +68,14 @@ const refreshing = async () => {
     console.error("Impossible de mettre à jour la liste des maintenances :", err);
   }
 }
+
+const formatDate = (date: string) => {
+  return new Intl.DateTimeFormat("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(new Date(date));
+};
 </script>
 
 <template>
@@ -97,13 +115,16 @@ const refreshing = async () => {
 
     <UiElementsListActions>
       <template #actions>
-        <UiElementsModal :show-actions="false" :modal-title="'Historique la maintenance'">
+        <UiElementsModal :show-actions="false" :modal-title="`Historique de la maintenance - ${maintenance.title}`" :modalClass="'log-modal'">
           <template #modal-button>
             <UiIconsHistory/>
             Historique
           </template>
           <template #modal-content="{ close }">
-            <FormCreateMaintenanceLog :maintenance="maintenance" @saved="refreshing" @cancel="close"/>
+            <div class="logs-container">
+              <FormCreateMaintenanceLog :maintenance="maintenance" @saved="refreshing" @cancel="close"/>
+              <ListingMaintenanceLog :logs="maintenance.logs" :maintenance-id="maintenance.id" @deleted="handleDeleteLog" />
+            </div>
           </template>
         </UiElementsModal>
         <UiElementsModal :show-actions="false" :modal-title="'Modifier la maintenance'">

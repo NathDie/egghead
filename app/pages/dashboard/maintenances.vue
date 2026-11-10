@@ -19,6 +19,17 @@ const handleDeleted = (id: string) => {
   );
 };
 
+const handleLogDeleted = (maintenanceId: string, logId: string) => {
+  if (!data.value) return;
+
+  const maintenance = data.value.maintenances.find(
+      (m) => m.id === maintenanceId
+  );
+  if (!maintenance) return;
+
+  maintenance.logs = maintenance.logs.filter((log) => log.id !== logId);
+};
+
 useHead({
   bodyAttrs: {
     class: "page-maintenance",
@@ -27,7 +38,7 @@ useHead({
 </script>
 
 <template>
-  <UiElementsLoaderLogo v-if="pending"/>
+  <UiElementsLoaderLogo v-if="pending && !data"/>
 
   <div v-else-if="error" class="container">
     <p>Impossible de charger les maintenances.</p>
@@ -53,6 +64,7 @@ useHead({
               v-else
               :maintenances="data?.maintenances ?? []"
               @deleted="handleDeleted"
+              @logDeleted="handleLogDeleted"
               @refresh="refresh"
           />
         </div>

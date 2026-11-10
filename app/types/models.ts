@@ -71,7 +71,7 @@ interface MaintenanceFields {
 export interface Maintenance extends  MaintenanceFields {
     id: string
     status: string
-    logs: MaintenanceLog
+    logs: MaintenanceLog[]
 }
 
 export type MaintenancePayload = MaintenanceFields

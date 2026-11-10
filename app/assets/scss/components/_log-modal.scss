@@ -1,0 +1,15 @@
+@use "../abstracts/index" as *;
+
+.modal-container .log-modal {
+  @include md {
+    min-width: 42rem;
+  }
+
+  .logs-container {
+    .log-form-container {
+      border: 2px solid #1e406726;
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+  }
+}

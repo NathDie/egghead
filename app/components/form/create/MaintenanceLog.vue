@@ -47,7 +47,7 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <div class="task-form-container">
+  <div class="log-form-container">
     <UiElementsLoader v-if="sending"/>
 
     <form class="task-form form" @submit.prevent="submitForm" v-show="!sending">

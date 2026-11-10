@@ -1,3 +1,5 @@
+@use "../abstracts/index" as *;
+
 .page-maintenance {
   .container {
     .formulaire {
@@ -19,6 +21,15 @@
 
         .maintenance {
           .bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+
+            @include md {
+              flex-direction: row;
+              align-items: center;
+            }
+
             > div {
               display: inline-flex;
               gap: 0.5rem;
