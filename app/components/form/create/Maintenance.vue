@@ -66,7 +66,7 @@ const submitForm = async () => {
       <div class="form-row full">
         <div class="form-group">
           <label for="title">Titre*</label>
-          <input id="title" v-model="title" name="title" type="text" required placeholder="Titre de la tâche">
+          <input id="title" v-model="title" name="title" type="text" required placeholder="Titre de la maintenance">
         </div>
         <div class="form-group">
           <UiElementsFormSelect v-model="frequency" label="Fréquence" :options="recurrenceOptions" />
