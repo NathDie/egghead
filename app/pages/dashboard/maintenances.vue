@@ -42,7 +42,7 @@ useHead({
 
     <div class="content">
       <section id="formulaire" class="formulaire">
-        <FormCreateTask @saved="refresh"/>
+        <FormCreateMaintenance @saved="refresh"/>
       </section>
       <section id="data" class="data">
         <div class="maintenances elements">

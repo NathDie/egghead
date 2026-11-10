@@ -84,9 +84,9 @@ useHead({
       </section>
 
       <section id="data" class="data">
-        <div class="monitorings">
+        <div class="monitorings elements">
           <div
-              class="monitoring-empty"
+              class="monitoring-empty element-empty"
               v-if="data?.monitorings && data.monitorings.length < 1"
           >
             Aucun lien à surveiller pour le moment
@@ -96,7 +96,7 @@ useHead({
               v-else
               v-for="monitoring in data?.monitorings"
               :key="monitoring.id"
-              class="monitoring"
+              class="monitoring element"
               :class="{ disabled: !monitoring.active }"
           >
             <UiElementsLoader v-show="deletingId === monitoring.id"/>

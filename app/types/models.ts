@@ -64,13 +64,13 @@ interface MaintenanceFields {
     title: string
     description: string
     frequency: string
+    next_due_at: string
+    last_done_at: string
 }
 
 export interface Maintenance extends  MaintenanceFields {
     id: string
     status: string
-    next_due_at: string
-    last_done_at: string
     logs: MaintenanceLog
 }
 
