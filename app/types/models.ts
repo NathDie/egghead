@@ -91,4 +91,53 @@ export interface MaintenanceLogPayload extends MaintenanceLogFields {
     maintenance: string
 }
 
-export type MaintenanceLogUpdatePayload = Partial<MaintenanceFields>
+interface InventoryCategoryFields {
+    name: string
+}
+
+export interface InventoryCategory extends InventoryCategoryFields {
+    id: string
+}
+
+export type InventoryCategoryPayload = InventoryCategoryFields
+
+export type InventoryCategoryUpdatePayload = Partial<InventoryCategoryFields>
+
+interface InventoryLocationFields {
+    name: string
+    description: string
+}
+
+export interface InventoryLocation extends InventoryLocationFields {
+    id: string
+}
+
+export type InventoryLocationPayload = InventoryLocationFields
+
+export type InventoryLocationUpdatePayload = Partial<InventoryLocationFields>
+
+interface InventoryFields {
+    name: string
+    description: string
+    quantity: number
+    purchase_date: string
+    purchase_price: string
+    warranty_expires_at: string
+    status: string
+    used_by: string
+}
+
+interface InventoryUpdateFields extends InventoryFields {
+    category: string
+    location: string
+}
+
+export interface Inventory extends InventoryFields {
+    id: string
+    category: InventoryCategory
+    location: InventoryLocation
+}
+
+export type InventoryPayload = InventoryUpdateFields
+
+export type InventoryUpdatePayload = Partial<InventoryUpdateFields>
