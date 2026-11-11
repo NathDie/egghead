@@ -63,6 +63,16 @@ useHead({
           </div>
           <UiIconsChevron  class="chevron" />
         </NuxtLink>
+        <NuxtLink v-if="auth.isCaptain" to="/dashboard/maintenances" class="item">
+          <div class="icon">
+            <UiIconsWrench />
+          </div>
+          <div class="text">
+            <h2>Maintenances</h2>
+            <p>Les entretiens à prévoir et leur échéance</p>
+          </div>
+          <UiIconsChevron  class="chevron" />
+        </NuxtLink>
       </div>
     </div>
   </div>
