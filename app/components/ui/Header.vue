@@ -56,6 +56,10 @@ async function signOut() {
           <UiIconsWrench />
           <span>Maintenances</span>
         </NuxtLink>
+        <NuxtLink v-if="auth.isCaptain" to="/dashboard/inventory">
+          <UiIconsPackage />
+          <span>Inventaire</span>
+        </NuxtLink>
       </nav>
     </div>
   </header>
