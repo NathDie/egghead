@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { getReminders, deleteReminder } from "~/services/api.ts";
 
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(date));
-};
-
 const { data, pending, error, refresh } = await useAsyncData("reminder-data", async () => {
   const [reminders] = await Promise.all([
     getReminders(),

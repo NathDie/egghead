@@ -11,14 +11,6 @@ const emit = defineEmits<{
   refresh: [];
 }>();
 
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(date));
-};
-
 const handleDelete = (id: string) => {
   emit('deleted', props.maintenanceId, id)
 }

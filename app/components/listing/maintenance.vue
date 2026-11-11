@@ -68,14 +68,6 @@ const refreshing = async () => {
     console.error("Impossible de mettre à jour la liste des maintenances :", err);
   }
 }
-
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(date));
-};
 </script>
 
 <template>

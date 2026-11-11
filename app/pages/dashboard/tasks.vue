@@ -2,14 +2,6 @@
 import {getTasks, deleteTask, updateTask} from "~/services/api.ts";
 import type {Task} from "~/types/models";
 
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  }).format(new Date(date));
-};
-
 const statusOptions = [
   {value: "todo", label: "À faire"},
   {value: "in_progress", label: "En cours"},
