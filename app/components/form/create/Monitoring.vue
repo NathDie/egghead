@@ -60,7 +60,7 @@ const submitForm = async () => {
 
       <div v-if="error || success" class="form-row">
         <UiElementsFlashMessage v-if="error" :type="'error'">{{ error }}</UiElementsFlashMessage>
-        <UiElementsFlashMessage v-if="success" :type="'success'">La supervision a bien été ajouté.</UiElementsFlashMessage>
+        <UiElementsFlashMessage v-if="success" :type="'success'">La supervision a été ajoutée.</UiElementsFlashMessage>
       </div>
 
       <div class="form-row">

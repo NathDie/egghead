@@ -82,7 +82,7 @@ const submitForm = async () => {
 
       <div v-if="error || success" class="form-row">
         <UiElementsFlashMessage v-if="error" :type="'error'">{{ error }}</UiElementsFlashMessage>
-        <UiElementsFlashMessage v-if="success" :type="'success'">Le rappel ajouté.</UiElementsFlashMessage>
+        <UiElementsFlashMessage v-if="success" :type="'success'">Le rappel a été ajouté.</UiElementsFlashMessage>
       </div>
 
       <div class="form-row">
