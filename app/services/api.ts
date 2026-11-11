@@ -1,6 +1,6 @@
 import type {
     AuthPayload,
-    AuthResponse,
+    AuthResponse, InventoryPayload,
     MaintenanceLogPayload,
     ReminderPayload,
     ReminderUpdatePayload
@@ -12,6 +12,9 @@ const monitoringEndpoint = 'monitorings'
 const taskEndpoint = 'tasks'
 const maintenanceEndpoint = 'maintenances'
 const maintenanceLogEndpoint = 'maintenance-logs'
+const inventoryEndpoint = 'inventories'
+const inventoryCategoryEndpoint = 'inventory-categories'
+const inventoryLocationEndpoint = 'inventory-locations'
 
 export async function login(payload: AuthPayload) {
     const config = useRuntimeConfig();
@@ -219,6 +222,113 @@ export async function saveMaintenanceLog(payload: MaintenanceLogPayload) {
     const api = useApi()
 
     return api<MaintenanceLog>(`/${maintenanceLogEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
+        body: payload
+    });
+}
+
+export async function getInventories() {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Inventory[]>(`/${inventoryEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'GET',
+    });
+}
+
+export async function deleteInventory(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Inventory>(`/${inventoryEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveInventory(payload: InventoryPayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Inventory>(`/${inventoryEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
+        body: payload
+    });
+}
+
+export async function updateInventory(id: string, payload: InventoryUpdatePayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Inventory>(`/${inventoryEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/merge-patch+json'
+        },
+        body: payload
+    });
+}
+
+export async function getInventoryCategories() {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<InventoryCategory[]>(`/${inventoryCategoryEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'GET',
+    });
+}
+
+export async function deleteInventoryCategory(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<InventoryCategory>(`/${inventoryCategoryEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveInventoryCategory(payload: InventoryCategoryPayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<InventoryCategory>(`/${inventoryCategoryEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
+        body: payload
+    });
+}
+
+export async function getInventoryLocations() {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<InventoryLocation[]>(`/${inventoryLocationEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'GET',
+    });
+}
+
+export async function deleteInventoryLocation(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<InventoryLocation>(`/${inventoryLocationEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveInventoryLocation(payload: InventoryLocationPayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<InventoryLocation>(`/${inventoryLocationEndpoint}`, {
         baseURL: config.public.apiUrl,
         method: 'POST',
         body: payload

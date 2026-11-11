@@ -127,7 +127,7 @@ interface InventoryFields {
     used_by: string
 }
 
-interface InventoryUpdateFields extends InventoryFields {
+interface InventoryUpdateOrCreateFields extends InventoryFields {
     category: string
     location: string
 }
@@ -138,6 +138,6 @@ export interface Inventory extends InventoryFields {
     location: InventoryLocation
 }
 
-export type InventoryPayload = InventoryUpdateFields
+export type InventoryPayload = InventoryUpdateOrCreateFields
 
-export type InventoryUpdatePayload = Partial<InventoryUpdateFields>
+export type InventoryUpdatePayload = Partial<InventoryUpdateOrCreateFields>
