@@ -1,7 +1,25 @@
 <script setup lang="ts">
-const pending = ref(false)
-const data = ref(['toto', 'titi'])
-const error = ref(false)
+import {getInventories, getInventoryCategories, getInventoryLocations, getTasks} from "~/services/api.ts";
+
+const {data, pending, error, refresh} = await useAsyncData(
+    "inventory-data",
+    async () => {
+      const [inventories, categories, locations] = await Promise.all([
+        getInventories(),
+        getInventoryCategories(),
+        getInventoryLocations(),
+      ]);
+
+      return {inventories, categories, locations};
+    },
+    {deep: true},
+);
+
+const handleDeleted = (id: string) => {
+  if (!data.value) return;
+
+  data.value.categories = data.value.categories.filter((category) => category.id !== id);
+};
 
 useHead({
   bodyAttrs: {
@@ -26,8 +44,19 @@ useHead({
       />
       <div class="actions">
         <button class="category-locate">
-          <UiIconsSettings2 />
-          Catégories & lieux
+          <UiElementsModal :show-actions="false" :modal-title="'Catégories & lieux'">
+            <template #modal-button>
+              <UiIconsSettings2 />
+              Catégories & lieux
+            </template>
+            <template #modal-content="{ close }">
+              <FormCreateInventoryCategory @saved="refresh" @cancel="close"/>
+              <ListingInventoryCategory
+                  :categories="data?.categories ?? []"
+                  @deleted="handleDeleted"
+                  @refresh="refresh" />
+            </template>
+          </UiElementsModal>
         </button>
         <button class="product">
           <UiIconsPlus />
