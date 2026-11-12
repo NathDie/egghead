@@ -84,7 +84,8 @@ useHead({
             Nouveau produit
           </template>
           <template #modal-content="{ close }">
-            <FormCreateInventory :locations="data?.locations ?? []" :categories="data?.categories ?? []" :inventories="data?.inventories ?? []" @close="close" @saved="refresh" />
+            <FormCreateInventory :locations="data?.locations ?? []" :categories="data?.categories ?? []"
+                                 :inventories="data?.inventories ?? []" @close="close" @saved="refresh"/>
           </template>
         </UiElementsModal>
       </div>
@@ -95,7 +96,14 @@ useHead({
         <!--        <FormCreateMaintenance @saved="refresh"/>-->
       </section>
       <section id="data" class="data">
-        <div class="items elements">
+        <div class="elements">
+          <div class="inventory-empty element-empty" v-if="data?.inventories && data?.inventories.length < 1">
+            Aucun produit pour le moment
+          </div>
+          <ListingInventory
+              v-else
+              :inventories="data?.inventories ?? []"
+          />
         </div>
       </section>
     </div>

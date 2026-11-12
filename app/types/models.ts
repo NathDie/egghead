@@ -124,7 +124,7 @@ interface InventoryFields {
     purchase_price: string | null
     warranty_expires_at: string | null
     status: string
-    used_by: string | null
+    used_by: Inventory | null
 }
 
 interface InventoryUpdateOrCreateFields extends InventoryFields {
