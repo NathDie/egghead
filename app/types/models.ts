@@ -120,11 +120,11 @@ interface InventoryFields {
     name: string
     description: string
     quantity: number
-    purchase_date: string
-    purchase_price: string
-    warranty_expires_at: string
+    purchase_date: string | null
+    purchase_price: string | null
+    warranty_expires_at: string | null
     status: string
-    used_by: string
+    used_by: string | null
 }
 
 interface InventoryUpdateOrCreateFields extends InventoryFields {

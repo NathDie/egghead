@@ -76,10 +76,17 @@ useHead({
             </div>
           </template>
         </UiElementsModal>
-        <button class="product">
-          <UiIconsPlus/>
-          Nouveau produit
-        </button>
+
+        <UiElementsModal :show-actions="false" :modal-title="'Nouveau produit'"
+                         :modal-class="'inventory-modal'" :button-class="'product'">
+          <template #modal-button class="product">
+            <UiIconsPlus/>
+            Nouveau produit
+          </template>
+          <template #modal-content="{ close }">
+            <FormCreateInventory :locations="data?.locations ?? []" :categories="data?.categories ?? []" :inventories="data?.inventories ?? []" @close="close" @saved="refresh" />
+          </template>
+        </UiElementsModal>
       </div>
     </div>
 
