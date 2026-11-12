@@ -64,6 +64,15 @@
       font-weight: 500;
       font-size: .875rem;
       line-height: 1.25rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      height: 2rem;
+
+      svg {
+        width: 1rem;
+      }
 
       &:hover {
         background: var(--color-lucidity2);

@@ -17,13 +17,13 @@ const handleDelete = async (id: string) => {
 </script>
 
 <template>
-  <div class="maintenance-categories-container">
+  <div class="maintenance-categories-container items-container">
     <div
-      class="category"
+      class="category item"
       v-for="category in categories"
       :key="category.id"
     >
-      {{ category.name }}
+      <span class="label">{{ category.name }}</span>
 
       <button @click="handleDelete(category.id)">
         <UiIconsTrash />

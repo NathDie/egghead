@@ -15,10 +15,16 @@ const {data, pending, error, refresh} = await useAsyncData(
     {deep: true},
 );
 
-const handleDeleted = (id: string) => {
+const handleCategoriesDeleted = (id: string) => {
   if (!data.value) return;
 
   data.value.categories = data.value.categories.filter((category) => category.id !== id);
+};
+
+const handleLocationsDeleted = (id: string) => {
+  if (!data.value) return;
+
+  data.value.locations = data.value.locations.filter((location) => location.id !== id);
 };
 
 useHead({
@@ -43,23 +49,35 @@ useHead({
           :description="'Vos produits, leur état, leur catégorie et l\'endroit où ils sont rangés'"
       />
       <div class="actions">
-        <button class="category-locate">
-          <UiElementsModal :show-actions="false" :modal-title="'Catégories & lieux'">
-            <template #modal-button>
-              <UiIconsSettings2 />
-              Catégories & lieux
-            </template>
-            <template #modal-content="{ close }">
-              <FormCreateInventoryCategory @saved="refresh" @cancel="close"/>
-              <ListingInventoryCategory
-                  :categories="data?.categories ?? []"
-                  @deleted="handleDeleted"
-                  @refresh="refresh" />
-            </template>
-          </UiElementsModal>
-        </button>
+        <UiElementsModal :show-actions="false" :modal-title="'Catégories & lieux'"
+                         :modal-class="'category-locate-modal'" :button-class="'category-locate'">
+          <template #modal-button class="category-locate">
+            <UiIconsSettings2/>
+            Catégories & lieux
+          </template>
+          <template #modal-content="{ close }">
+            <div class="category-locate-container">
+              <div class="category-side">
+                <span class="title">Catégories</span>
+                <FormCreateInventoryCategory @saved="refresh" @cancel="close"/>
+                <ListingInventoryCategory
+                    :categories="data?.categories ?? []"
+                    @deleted="handleCategoriesDeleted"
+                    @refresh="refresh"/>
+              </div>
+              <div class="location-side">
+                <span class="title">Lieux</span>
+                <FormCreateInventoryLocation @saved="refresh" @cancel="close"/>
+                <ListingInventoryLocation
+                    :locations="data?.locations ?? []"
+                    @deleted="handleLocationsDeleted"
+                    @refresh="refresh"/>
+              </div>
+            </div>
+          </template>
+        </UiElementsModal>
         <button class="product">
-          <UiIconsPlus />
+          <UiIconsPlus/>
           Nouveau produit
         </button>
       </div>
@@ -67,7 +85,7 @@ useHead({
 
     <div class="content">
       <section id="formulaire" class="formulaire">
-<!--        <FormCreateMaintenance @saved="refresh"/>-->
+        <!--        <FormCreateMaintenance @saved="refresh"/>-->
       </section>
       <section id="data" class="data">
         <div class="items elements">

@@ -44,10 +44,10 @@ const submitForm = async () => {
 
     <form class="inventory-category-form form" @submit.prevent="submitForm" v-show="!sending">
       <div class="form-row full">
-        <div class="form-group">
+        <div class="form-group name">
           <input id="name" v-model="name" name="name" type="text" required placeholder="Nouvelle catégorie">
         </div>
-        <div class="form-group">
+        <div class="form-group button">
           <button type="submit" :disabled="!isValid || sending"><UiIconsPlus /></button>
         </div>
       </div>
