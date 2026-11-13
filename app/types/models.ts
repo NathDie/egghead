@@ -68,7 +68,7 @@ interface MaintenanceFields {
     last_done_at: string
 }
 
-export interface Maintenance extends  MaintenanceFields {
+export interface Maintenance extends MaintenanceFields {
     id: string
     status: string
     logs: MaintenanceLog[]
@@ -142,3 +142,10 @@ export interface Inventory extends InventoryFields {
 export type InventoryPayload = InventoryUpdateOrCreateFields
 
 export type InventoryUpdatePayload = Partial<InventoryUpdateOrCreateFields>
+
+export interface InventoryFilters {
+    search: string
+    state: string
+    category: string
+    location: string
+}

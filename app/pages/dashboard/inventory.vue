@@ -15,6 +15,41 @@ const {data, pending, error, refresh} = await useAsyncData(
     {deep: true},
 );
 
+import type { InventoryFilters } from "~/types/models";
+
+const filters = ref<InventoryFilters>({
+  search: "",
+  state: "",
+  category: "",
+  location: ""
+});
+
+const filteredInventories = computed(() => {
+  const inventories = data.value?.inventories ?? [];
+
+  return inventories.filter(inventory => {
+    const search = filters.value.search.toLowerCase().trim();
+
+    const matchSearch =
+        !search ||
+        inventory.name.toLowerCase().includes(search);
+
+    const matchState =
+        !filters.value.state ||
+        inventory.status === filters.value.state;
+
+    const matchCategory =
+        !filters.value.category ||
+        String(inventory.category?.id) === filters.value.category;
+
+    const matchLocation =
+        !filters.value.location ||
+        String(inventory.location?.id) === filters.value.location;
+
+    return matchSearch && matchState && matchCategory && matchLocation;
+  });
+});
+
 const handleCategoriesDeleted = (id: string) => {
   if (!data.value) return;
 
@@ -93,7 +128,11 @@ useHead({
 
     <div class="content">
       <section id="formulaire" class="formulaire">
-        <!--        <FormCreateMaintenance @saved="refresh"/>-->
+        <FormFilterInventory
+            :categories="data?.categories ?? []"
+            :locations="data?.locations ?? []"
+            @change="filters = $event"
+        />
       </section>
       <section id="data" class="data">
         <div class="elements">
@@ -104,7 +143,7 @@ useHead({
               v-else
               :locations="data?.locations ?? []"
               :categories="data?.categories ?? []"
-              :inventories="data?.inventories ?? []"
+              :inventories="filteredInventories"
               @saved="refresh"
           />
         </div>

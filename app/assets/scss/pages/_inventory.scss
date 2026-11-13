@@ -63,4 +63,13 @@
       }
     }
   }
+
+  .formulaire {
+    background-color: var(--color-milk-jug);
+    border-radius: 1rem;
+    border: 2px solid var(--color-milk-jug2);
+    padding: 1rem;
+    margin-top: 2rem;
+    position: relative;
+  }
 }
