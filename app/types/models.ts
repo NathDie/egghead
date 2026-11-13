@@ -149,3 +149,41 @@ export interface InventoryFilters {
     category: string
     location: string
 }
+
+interface BookCategoryFields {
+    name: string
+}
+
+export interface BookCategory extends BookAuthorFields {
+    id: string
+}
+
+export type BookCategoryPayload = BookCategoryFields
+
+interface BookAuthorFields {
+    name: string
+}
+
+export interface BookAuthor extends BookAuthorFields {
+    id: string
+}
+
+export type BookAuthorPayload = BookAuthorFields
+
+interface BookFields {
+    title: string
+    synopsis: string
+    published_at: string
+    reading: boolean
+}
+
+export interface Book extends BookFields {
+    id: string
+    author: BookAuthor
+    categories: BookCategory[]
+}
+
+export interface BookUpdateOrCreateFields extends BookFields {
+    author: string
+    categories: string[]
+}
