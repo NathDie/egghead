@@ -1,6 +1,6 @@
 import type {
     AuthPayload,
-    AuthResponse, InventoryPayload,
+    AuthResponse, BookUpdateOrCreateFields, InventoryPayload,
     MaintenanceLogPayload,
     ReminderPayload,
     ReminderUpdatePayload
@@ -15,6 +15,9 @@ const maintenanceLogEndpoint = 'maintenance-logs'
 const inventoryEndpoint = 'inventories'
 const inventoryCategoryEndpoint = 'inventory-categories'
 const inventoryLocationEndpoint = 'inventory-locations'
+const bookEndpoint = 'books'
+const bookAuthorEndpoint = 'book-authors'
+const bookCategoryEndpoint = 'book-categories'
 
 export async function login(payload: AuthPayload) {
     const config = useRuntimeConfig();
@@ -331,6 +334,113 @@ export async function saveInventoryLocation(payload: InventoryLocationPayload) {
     return api<InventoryLocation>(`/${inventoryLocationEndpoint}`, {
         baseURL: config.public.apiUrl,
         method: 'POST',
+        body: payload
+    });
+}
+
+export async function getBookAuthors() {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<BookAuthor[]>(`/${bookAuthorEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'GET',
+    });
+}
+
+export async function deleteBookAuthor(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<BookAuthor>(`/${bookAuthorEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveBookAuthor(payload: BookAuthorPayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<BookAuthor>(`/${bookAuthorEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
+        body: payload
+    });
+}
+
+export async function getBookCategories() {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<BookCategory[]>(`/${bookCategoryEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'GET',
+    });
+}
+
+export async function deleteBookCategory(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<BookCategory>(`/${bookCategoryEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveBookCategory(payload: BookCategoryPayload) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<BookCategory>(`/${bookCategoryEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
+        body: payload
+    });
+}
+
+export async function getBooks() {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Book[]>(`/${bookEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'GET',
+    });
+}
+
+export async function deleteBook(id: string) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Book>(`/${bookEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'DELETE',
+    });
+}
+
+export async function saveBook(payload: BookUpdateOrCreateFields) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Book>(`/${bookEndpoint}`, {
+        baseURL: config.public.apiUrl,
+        method: 'POST',
+        body: payload
+    });
+}
+
+export async function updateBook(id: string, payload: BookUpdateOrCreateFields) {
+    const config = useRuntimeConfig();
+    const api = useApi()
+
+    return api<Book>(`/${bookEndpoint}/${id}`, {
+        baseURL: config.public.apiUrl,
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/merge-patch+json'
+        },
         body: payload
     });
 }
