@@ -73,6 +73,16 @@ useHead({
           </div>
           <UiIconsChevron  class="chevron" />
         </NuxtLink>
+        <NuxtLink v-if="auth.isCaptain" to="/dashboard/inventory" class="item">
+          <div class="icon">
+            <UiIconsPackage />
+          </div>
+          <div class="text">
+            <h2>Inventaire</h2>
+            <p>Vos produits, leur état et leur emplacement</p>
+          </div>
+          <UiIconsChevron  class="chevron" />
+        </NuxtLink>
       </div>
     </div>
   </div>
