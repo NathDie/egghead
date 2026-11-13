@@ -3,11 +3,13 @@ import {deleteInventory} from "~/services/api.ts";
 
 defineProps<{
   inventories: Inventory[]
+  categories: InventoryCategory[]
+  locations: InventoryLocation[]
 }>();
 
 const emit = defineEmits<{
   deleted: [id: string];
-  refresh: [];
+  saved: [];
 }>();
 
 const stateOptions = [
@@ -25,6 +27,10 @@ const handleDelete = async (id: string) => {
   deletingId.value = id;
   await deleteInventory(id)
   emit('deleted', id)
+}
+
+const handleSaved = () => {
+  emit('saved')
 }
 </script>
 
@@ -66,6 +72,15 @@ const handleDelete = async (id: string) => {
 
       <UiElementsListActions>
         <template #actions>
+          <UiElementsModal :show-actions="false" :modal-title="'Modifier le produit'">
+            <template #modal-button>
+              <UiIconsPencil/>
+              Modifier
+            </template>
+            <template #modal-content="{ close }">
+              <FormEditInventory :inventory="inventory" :categories="categories" :locations="locations" @saved="handleSaved" @cancel="close"/>
+            </template>
+          </UiElementsModal>
           <button
               type="button"
               class="delete"

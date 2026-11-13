@@ -102,7 +102,10 @@ useHead({
           </div>
           <ListingInventory
               v-else
+              :locations="data?.locations ?? []"
+              :categories="data?.categories ?? []"
               :inventories="data?.inventories ?? []"
+              @saved="refresh"
           />
         </div>
       </section>

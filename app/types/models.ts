@@ -124,12 +124,13 @@ interface InventoryFields {
     purchase_price: string | null
     warranty_expires_at: string | null
     status: string
-    used_by: Inventory | null
+    used_by: Inventory | null | string
 }
 
 interface InventoryUpdateOrCreateFields extends InventoryFields {
     category: string
     location: string
+    used_by: Inventory | null | string
 }
 
 export interface Inventory extends InventoryFields {
