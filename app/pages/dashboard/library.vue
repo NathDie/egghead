@@ -15,6 +15,18 @@ const {data, pending, error, refresh} = await useAsyncData(
     {deep: true},
 );
 
+const handleCategoriesDeleted = (id: string) => {
+  if (!data.value) return;
+
+  data.value.categories = data.value.categories.filter((category) => category.id !== id);
+};
+
+const handleAuthorsDeleted = (id: string) => {
+  if (!data.value) return;
+
+  data.value.authors = data.value.authors.filter((author) => author.id !== id);
+};
+
 useHead({
   bodyAttrs: {
     class: () => `page-inventory`
@@ -37,6 +49,33 @@ useHead({
           :description="'Vos livres, leurs auteurs, leurs catégories et vos lectures en cours.'"
       />
       <div class="actions">
+        <UiElementsModal :show-actions="false" :modal-title="'Catégories & lieux'"
+                         :modal-class="'category-locate-modal'" :button-class="'category-locate'">
+          <template #modal-button class="category-locate">
+            <UiIconsSettings2/>
+            Auteurs & Catégories
+          </template>
+          <template #modal-content="{ close }">
+            <div class="category-author-container">
+              <div class="category-side">
+                <span class="title">Catégories</span>
+                <FormCreateBookCategory @saved="refresh" @cancel="close"/>
+                <ListingBookCategory
+                    :categories="data?.categories ?? []"
+                    @deleted="handleCategoriesDeleted"
+                    @refresh="refresh"/>
+              </div>
+              <div class="author-side">
+                <span class="title">Auteurs</span>
+                <FormCreateBookAuthor @saved="refresh" @cancel="close"/>
+                <ListingBookAuthor
+                    :authors="data?.authors ?? []"
+                    @deleted="handleAuthorsDeleted"
+                    @refresh="refresh"/>
+              </div>
+            </div>
+          </template>
+        </UiElementsModal>
         <UiElementsModal :show-actions="false" :modal-title="'Nouveau livre'"
                          :modal-class="'book-modal'" :button-class="'book'">
           <template #modal-button class="book">
@@ -49,6 +88,26 @@ useHead({
           </template>
         </UiElementsModal>
       </div>
+    </div>
+
+    <div class="content">
+      <section id="formulaire" class="formulaire">
+
+      </section>
+      <section id="data" class="data">
+        <div class="elements">
+          <div class="inventory-empty element-empty" v-if="data?.books && data?.books.length < 1">
+            Aucun livre pour le moment
+          </div>
+          <ListingBook
+              v-else
+              :authors="data?.authors ?? []"
+              :categories="data?.categories ?? []"
+              :books="data?.books ?? []"
+              @saved="refresh"
+          />
+        </div>
+      </section>
     </div>
   </div>
 </template>

@@ -60,6 +60,10 @@ async function signOut() {
           <UiIconsPackage />
           <span>Inventaire</span>
         </NuxtLink>
+        <NuxtLink v-if="auth.isCaptain" to="/dashboard/library">
+          <UiIconsBookOpen />
+          <span>Bibliothèque</span>
+        </NuxtLink>
       </nav>
     </div>
   </header>
