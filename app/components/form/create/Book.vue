@@ -84,7 +84,7 @@ function onReadingChange(value: boolean) {
   <div class="book-form-container">
     <UiElementsLoader v-if="sending"/>
 
-    <form class="book-form form" @submit.prevent="submitForm" v-show="!sending">
+    <form class="book-form create-form form" @submit.prevent="submitForm" v-show="!sending">
       <div class="form-row full">
         <div class="form-group">
           <label for="title">Titre*</label>
@@ -120,7 +120,7 @@ function onReadingChange(value: boolean) {
           />
         </div>
       </div>
-      <div class="form-row">
+      <div class="form-row actions">
         <button type="button" @click="emit('close')">Annuler</button>
         <button type="submit" :disabled="!isValid || sending">
           <UiIconsSave/>

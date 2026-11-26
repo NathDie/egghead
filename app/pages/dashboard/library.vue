@@ -29,7 +29,7 @@ const handleAuthorsDeleted = (id: string) => {
 
 useHead({
   bodyAttrs: {
-    class: () => `page-inventory`
+    class: () => `page-library`
   }
 })
 </script>
@@ -49,11 +49,11 @@ useHead({
           :description="'Vos livres, leurs auteurs, leurs catégories et vos lectures en cours.'"
       />
       <div class="actions">
-        <UiElementsModal :show-actions="false" :modal-title="'Catégories & lieux'"
-                         :modal-class="'category-locate-modal'" :button-class="'category-locate'">
-          <template #modal-button class="category-locate">
+        <UiElementsModal :show-actions="false" :modal-title="'Catégories & auteurs'"
+                         :modal-class="'category-author-modal'" :button-class="'category-author'">
+          <template #modal-button class="category-author">
             <UiIconsSettings2/>
-            Auteurs & Catégories
+            Catégories & Auteurs
           </template>
           <template #modal-content="{ close }">
             <div class="category-author-container">
