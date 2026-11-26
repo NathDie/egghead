@@ -111,7 +111,7 @@ const submitForm = async () => {
   <div class="inventory-form-container">
     <UiElementsLoader v-if="sending"/>
 
-    <form class="inventory-form form" @submit.prevent="submitForm" v-show="!sending">
+    <form class="inventory-form create-form form" @submit.prevent="submitForm" v-show="!sending">
       <div class="form-row full">
         <div class="form-group">
           <label for="name">Nom*</label>
@@ -177,7 +177,7 @@ const submitForm = async () => {
           <textarea id="description" v-model="description" name="description" placeholder="Détails (optionnel)"/>
         </div>
       </div>
-      <div class="form-row">
+      <div class="form-row actions">
         <button type="button" @click="emit('close')">Annuler</button>
         <button type="submit" :disabled="!isValid || sending">
           <UiIconsSave/>
